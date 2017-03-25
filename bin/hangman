@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'bundler'
+Bundler.require
+
+require_relative "Users/carolineolijve/Desktop/hangman-ruby-starter-master/lib/hangman.rb"
+
+game = Hangman.new
+game.play!
