@@ -7,10 +7,6 @@ class RandomWord
     @word = WORDS.sample
   end
 
-  def answer
-    puts " #{@word} "
-  end
-
   def positions_for
     (@word.length).times do print "[] " end
   end

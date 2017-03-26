@@ -3,12 +3,11 @@ require_relative "random_word.rb"
 class Hangman
 attr_reader :random_word, :answer, :array_word
 
-
     def initialize
       @random_word = RandomWord.new.word.downcase
       @array_word = @random_word.split(//)
       @playground =([" _ "]*(@array_word.length))
-      @bad_guesses_left = 10
+      @bad_guesses_left = 2
       @letter_counter = 0
       @answers=[]
     end
@@ -22,10 +21,10 @@ attr_reader :random_word, :answer, :array_word
       @playground.each {|x| print " #{x.upcase} "}
     end
 
-      def turn
-        print "Give us a letter, or, to guess the word, type '!': "
-        @answer = gets.chomp.chr.downcase
-      end
+    def turn
+      print "Give us a letter, or, to guess the word, type '!': "
+      @answer = gets.chomp.chr.downcase
+    end
 
       def input_check
         case @answer
@@ -51,25 +50,28 @@ attr_reader :random_word, :answer, :array_word
             !(%w(a b c d e f g h i j k l m n o p q r s t u  v w x  y z).include? @answer)
             print " Please provide only letters, to quess the word type '!'. "
         else
-          @answers<<@answer
+          add_answer_to_answers
         end
       end
 
-    def letter_check
-        if (@array_word.include? @answer)
-          @array_word.each do |x|
-            x.downcase
-              if x == @answer
-                 y = @array_word.index(x)
-                 @playground[y] = @answer
-                 @letter_counter += 1
-              end
-          end
-        else
-          @bad_guesses_left -= 1
-          puts "too bad"
-        end
-    end
+  def add_answer_to_answers
+    @answers<<@answer
+  end
+
+  def letter_check
+      if (@array_word.include? @answer)
+        @array_word.each do |x|
+          x.downcase
+              f x == @answer
+                y = @array_word.index(x)
+                @playground[y] = @answer
+                @letter_counter += 1
+            end
+      else
+        @bad_guesses_left -= 1
+        puts "too bad"
+      end
+  end
 
     def duration
       while (@bad_guesses_left > 0) && (@letter_counter != @array_word.length)  do
@@ -80,6 +82,20 @@ attr_reader :random_word, :answer, :array_word
         puts "bad_guesses_left: #{@bad_guesses_left}"
         puts  "#{(array_word.length)-@letter_counter} letters to go"
       end
+    end
+
+    def hangman
+      print "
+      \t\t\t\t\ _______
+      \t\t\t\t\|
+      \t\t\t\tO\s\s\s\t|
+      \t\t\t\t|\s\t|
+      \t\t\t\s\s\s\s\s\s\s/| \s\t|
+      \t\t\t\t\t|
+      \t\t\t\t\t|
+      \t\t\t\t\t|
+      \t\t\t\t\s\s\s\_____|_____
+      "
     end
 
     def dead
@@ -106,23 +122,8 @@ attr_reader :random_word, :answer, :array_word
       duration
       ending
     end
-
-    def hangman
-      print "
-      \t\t\t\t\ _______
-      \t\t\t\t\|
-      \t\t\t\tO\s\s\s\t|
-      \t\t\t\t|\s\t|
-      \t\t\t\s\s\s\s\s\s\s/| \s\t|
-      \t\t\t\t\t|
-      \t\t\t\t\t|
-      \t\t\t\t\t|
-      \t\t\t\t\s\s\s\_____|_____
-      "
-    end
 end
 
 
 game = Hangman.new
 game.play!
-#game.hangman
