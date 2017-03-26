@@ -1,15 +1,16 @@
 require_relative "random_word.rb"
 
 class Hangman
-attr_reader :random_word, :answer, :array_word
+attr_reader :random_word, :answer, :array_word, :bad_guesses_left
+attr_accessor :letter_counter, :playground
 
-    def initialize
+    def initialize (letter_counter=0)
       @random_word = RandomWord.new.word.downcase
       @array_word = @random_word.split(//)
-      @playground =([" _ "]*(@array_word.length))
-      @bad_guesses_left = 2
-      @letter_counter = 0
+      @bad_guesses_left = 10
+      @letter_counter = letter_counter
       @answers=[]
+      @playground =([" _ "]*(@array_word.length))
     end
 
     def start
@@ -62,7 +63,7 @@ attr_reader :random_word, :answer, :array_word
       if (@array_word.include? @answer)
         @array_word.each do |x|
           x.downcase
-              f x == @answer
+                x == @answer
                 y = @array_word.index(x)
                 @playground[y] = @answer
                 @letter_counter += 1
@@ -126,4 +127,6 @@ end
 
 
 game = Hangman.new
+game.letter_counter
+
 game.play!
