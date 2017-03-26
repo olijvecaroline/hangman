@@ -1,7 +1,7 @@
 require_relative "random_word.rb"
 
 class Hangman
-attr_reader :random_word, :answer, :array_word, :bad_guesses_left
+attr_reader :random_word, :answer, :array_word, :bad_guesses_left, :answers
 attr_accessor :letter_counter, :playground
 
     def initialize (letter_counter=0)
@@ -22,7 +22,7 @@ attr_accessor :letter_counter, :playground
       @playground.each {|x| print " #{x.upcase} "}
     end
 
-    def turn
+    def self.turn
       print "Give us a letter, or, to guess the word, type '!': "
       @answer = gets.chomp.chr.downcase
     end
@@ -76,7 +76,7 @@ attr_accessor :letter_counter, :playground
 
     def duration
       while (@bad_guesses_left > 0) && (@letter_counter != @array_word.length)  do
-        turn
+        Hangman.turn
         input_check
         letter_check
         print_playground
@@ -127,6 +127,4 @@ end
 
 
 game = Hangman.new
-game.letter_counter
-
 game.play!

@@ -50,8 +50,29 @@ before do
             it "prints the status of the playing board " do
               (expect subject.bad_guesses_left).to be <=10
               (expect subject.bad_guesses_left).to be >0
-          end
+            end
+      end
+    end
+
+    describe "#add_answer_to_answers" do
+      context "when valid input from the player" do
+        subject do
+        Hangman.new(:answer => "d",
+                     :answers => ["a","b","c"])
         end
+          it "adds the anwer only when valid" do
+            (expect subject.add_answer_to_answers).to eql(["a","b","c","d"])
+          end
+      end
+      context "when invalid input from the player" do
+        subject do
+        Hangman.new(:answer => "a",
+                     :answers => ["a","b","c"])
+        end
+          it "adds the anwer only when valid" do
+            (expect subject.add_answer_to_answers).to eql(["a","b","c"])
+          end
+      end
     end
 
 end
